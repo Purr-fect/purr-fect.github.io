@@ -1,0 +1,26 @@
+name: ci
+
+on: push
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Init
+        run: git lfs install
+      -
+        name: Deploy
+        if: success()
+        uses: ./
+        with:
+          target_branch: gh-pages
+          build_dir: .
+          verbose: true
+          jekyll: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
